@@ -1,6 +1,7 @@
 import java.io.*;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Scanner;
 
 public class FileUtil {
 
@@ -268,4 +269,132 @@ public class FileUtil {
         }
     }
 
+    public static void dataOutputStreamDemo() {
+        try {
+            DataOutputStream dout = new DataOutputStream(
+                    new FileOutputStream(
+                            "/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/products_db.txt"
+                    )
+            );
+
+            dout.writeInt(2340);
+            dout.writeFloat(4590.44f);
+            dout.writeUTF("Some Product");
+            dout.writeBoolean(true);
+
+            dout.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void dataInputStreamDemo() {
+        try {
+            DataInputStream din = new DataInputStream(
+                    new FileInputStream(
+                            "/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/products_db.txt"
+                    )
+            );
+            int id = din.readInt();
+            float price = din.readFloat();
+            String title = din.readUTF();
+            boolean isAvailable = din.readBoolean();
+
+            System.out.println(id + " " + price + " " + title + " " + isAvailable);
+
+
+            din.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void objectSerializationDemo() {
+        Product p1 = new Product(101, 2345.56f, "Product1", 4.3f);
+        Product p2 = new Product(201, 2885.90f, "Product2", 4.8f);
+
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(
+                    new FileOutputStream("/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/products.bin")
+            );
+
+            out.writeObject(p1);
+            out.writeObject(p2);
+
+            out.close();
+
+            ObjectInputStream in = new ObjectInputStream(
+                    new FileInputStream("/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/products.bin")
+            );
+
+            Product p11 = (Product) in.readObject();
+            Product p12 = (Product) in.readObject();
+
+            System.out.println(p11);
+            System.out.println(p12);
+
+            in.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void readFromStdin() {
+
+        Scanner scanner = new Scanner(System.in);
+
+        System.err.println(
+                scanner.nextInt()
+        );
+        scanner.nextLine();
+        System.err.println(
+                scanner.nextLine()
+        );
+
+        System.err.println(
+                scanner.nextFloat()
+        );
+
+    }
+
+    public static void readerWriterDemo() {
+        try {
+
+            OutputStreamWriter writer =
+                    new OutputStreamWriter(
+                            new FileOutputStream(
+                                    "/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/dummy.txt"
+                            )
+                    );
+
+            writer.write("this is a sample string....\n ");
+            writer.write("this is a sample string....\n ");
+            writer.write("this is a sample string....\n ");
+            writer.write("this is a sample string....\n ");
+            writer.write("this is a sample string....\n ");
+
+            writer.close();
+
+            FileInputStream fin = new FileInputStream(
+                    "/Users/vishal/java/workspaces/2024-06-10/InputStream1/src/dummy.txt"
+            );
+            InputStreamReader reader = new InputStreamReader(fin);
+            char [] data = new char[128];
+            int count;
+
+            while( (count = reader.read(data)) != -1) {
+                System.out.print(new String(data, 0, count));
+            }
+            reader.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

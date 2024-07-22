@@ -22,10 +22,19 @@ public class Main {
 
         //FileUtil.byteArrayOutputStreamDemo();
 
-        System.out.println(
+       /* System.out.println(
                 System.out.getClass().getName()
         );
 
-        FileUtil.printStreamDemo();
+        FileUtil.printStreamDemo();*/
+
+        //FileUtil.dataOutputStreamDemo();
+        //FileUtil.dataInputStreamDemo();
+
+        //FileUtil.objectSerializationDemo();
+
+        //FileUtil.readFromStdin();
+        FileUtil.readerWriterDemo();
+
     }
 }
